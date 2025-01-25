@@ -63,7 +63,7 @@ jobs:
     - name: Run Black (Check Only)
       run: black --check .
   
-  security:
+  bandit:
     runs-on: ubuntu-22.04
 
     steps:
@@ -77,18 +77,57 @@ jobs:
       with:
         python-version: 3.10.9
     
-    # Step 3: Install Security Tools
+    # Step 3: Install Bandit
+    - name: Install Dependencies
+      run: pip install bandit
+
+    # Step 4: Run Bandit
+    - name: Code Security Scan (Bandit)
+      run: bandit -r .
+  
+  trufflehog:
+    runs-on: ubuntu-22.04
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.9
+    
+    # Step 3: Install Truffel Hog
+    - name: Install Dependencies
+      run: pip install trufflehog
+
+    # Step 4: Run TruffleHog
+    - name: Secret Detection (TruffleHog)
+      run: trufflehog filesystem .
+  
+  pip-audit:
+    runs-on: ubuntu-22.04
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.9
+    
+    # Step 3: Install pip-audit
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    # Step 4: Run Security Tools
+        pip install pip-audit
+    
+    # Step 4: Run pip-audit
     - name: Dependency Vulnerability Scan
       run: pip-audit
-
-    - name: Code Security Scan (Bandit)
-      run: bandit -r .
-
-    - name: Secret Detection (TruffleHog)
-      run: trufflehog filesystem .
