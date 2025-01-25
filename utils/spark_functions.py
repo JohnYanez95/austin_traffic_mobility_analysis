@@ -1,8 +1,8 @@
-
 from functools import wraps
 from datetime import datetime
 from pyspark.sql import SparkSession
 from typing import Callable
+
 """
 Create a Spark session with optimized configurations to reduce CPU stress and manage heat:
     * master==local[6] - Use all 6 cores out of my 8 total cores
@@ -15,38 +15,42 @@ Create a Spark session with optimized configurations to reduce CPU stress and ma
         o spark.sql.shuffle.partitions==12        - Common to set 2-3x the # of cores available
         o spark.sql.execution.arrow.enabled==true - Enable Arrow for toPandas() optimization, reducing CPU overhead when converting
 """
+
+
 def create_SparkSession():
-    spark = SparkSession.builder \
-        .appName("OptimizedSparkSession") \
-        .master("local[6]") \
-        .config("spark.executor.memory", "16g") \
-        .config("spark.driver.memory", "32g") \
-        .config("spark.sql.adaptive.enabled", "false") \
-        .config("spark.sql.shuffle.partitions", "216")  \
-        .config("spark.sql.execution.arrow.pyspark.enabled", "false") \
+    spark = (
+        SparkSession.builder.appName("OptimizedSparkSession")
+        .master("local[6]")
+        .config("spark.executor.memory", "16g")
+        .config("spark.driver.memory", "32g")
+        .config("spark.sql.adaptive.enabled", "false")
+        .config("spark.sql.shuffle.partitions", "216")
+        .config("spark.sql.execution.arrow.pyspark.enabled", "false")
         .getOrCreate()
+    )
     return spark
+
 
 def inject_logging(function: Callable):
     @wraps(function)
     def wrap(*args, **kwargs):
         # Determine if the function is a method (i.e., first argument is 'self')
-        if args and hasattr(args[0], '__dict__'):
+        if args and hasattr(args[0], "__dict__"):
             instance = args[0]
-            logging = kwargs.pop('logging', getattr(instance, 'logging', True))
+            logging = kwargs.pop("logging", getattr(instance, "logging", True))
         else:
-            logging = kwargs.pop('logging', True)
-        
+            logging = kwargs.pop("logging", True)
+
         # Check if this is a nested call
-        if getattr(wrap, '_is_nested', False):
+        if getattr(wrap, "_is_nested", False):
             return function(*args, **kwargs)
-        
+
         # Indicate that nested calls are happening
         wrap._is_nested = True
-        
+
         # Record the start time
         start_datetime = datetime.now()
-        
+
         try:
             result = function(*args, **kwargs)
             failed_run = False
@@ -54,7 +58,7 @@ def inject_logging(function: Callable):
             failed_run = True
             result = None
             error_message = str(e)
-        
+
         # Record the end time
         end_datetime = datetime.now()
 
@@ -72,8 +76,8 @@ def inject_logging(function: Callable):
         if logging and kwargs:
             max_key_len = max(len(k) for k in kwargs.keys())
             key_format = "                 - {:" + str(max_key_len) + "} : {}\n"
-            key_string = ''.join([key_format.format(k, v) for k, v in kwargs.items()])
-        
+            key_string = "".join([key_format.format(k, v) for k, v in kwargs.items()])
+
         # Construct log message
         if logging:
             log_message = (
@@ -87,9 +91,11 @@ def inject_logging(function: Callable):
 
         # Reset nested flag
         wrap._is_nested = False
-        
+
         if failed_run:
-            raise RuntimeError(f"Function '{function.__name__}' failed with error: {error_message}")
+            raise RuntimeError(
+                f"Function '{function.__name__}' failed with error: {error_message}"
+            )
 
         return result
 
