@@ -1,0 +1,14 @@
+austin_traffic_mobility_analysis/
+  ├── data_ingestion/            # Scripts to fetch/load raw data
+  ├── preprocessing/             # Scripts for cleaning/engineering features
+  ├── models/                    # Machine learning models and training
+  ├── evaluation/                # Metrics, visualizations, and comparisons
+  ├── utils/                     # General helper scripts
+  ├── tests/                     # Unit tests for your modules
+  ├── notebooks/                 # Jupyter notebooks for experimentation
+  ├── docs/                      # Documentation (detailed explanations)
+  ├── README.md                  # Overview of the project
+  ├── requirements.txt           # Dependencies for the project
+  ├── setup.py                   # Optional: Make it installable as a package
+  ├── LICENSE                    # Licensing information (e.g., MIT License)
+  └── .gitignore                 # Files and directories to ignore in Git
