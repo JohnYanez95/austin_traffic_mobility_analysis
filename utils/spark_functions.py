@@ -5,15 +5,25 @@ from typing import Callable
 
 """
 Create a Spark session with optimized configurations to reduce CPU stress and manage heat:
-    * master==local[6] - Use all 6 cores out of my 8 total cores
+    * master == local[6]:
+        - Use all 6 cores out of my 8 total cores.
     * config:
-        o spark.executor.memory==32g              - Assign 32 GB of RAM for Spark executors (memory remains ample)
-        o spark.driver.memory==16g                - Assign 16 GB of RAM for the Spark driver (no change in memory allocation)
-        o spark.executor.cores==4                 - Use 4 cores for each executor (reduced from 8 to lower CPU load and heat)
-        o spark.task.cpus==1                      - Each task uses 1 core
-        o spark.sql.adaptive.enabled==false       - Disable Adaptive Query Execution for consistent performance and to avoid CPU heat spikes
-        o spark.sql.shuffle.partitions==12        - Common to set 2-3x the # of cores available
-        o spark.sql.execution.arrow.enabled==true - Enable Arrow for toPandas() optimization, reducing CPU overhead when converting
+        - spark.executor.memory == 32g:
+            Assign 32 GB of RAM for Spark executors (ample memory remains).
+        - spark.driver.memory == 16g:
+            Assign 16 GB of RAM for the Spark driver (no change in allocation).
+        - spark.executor.cores == 4:
+            Use 4 cores per executor (reduced from 8 to lower CPU load/heat).
+        - spark.task.cpus == 1:
+            Each task uses 1 core.
+        - spark.sql.adaptive.enabled == false:
+            Disable Adaptive Query Execution for consistent performance
+            and avoid CPU heat spikes.
+        - spark.sql.shuffle.partitions == 12:
+            Set shuffle partitions to 2-3x the # of available cores.
+        - spark.sql.execution.arrow.enabled == true:
+            Enable Arrow for toPandas() optimization, reducing CPU overhead
+            during DataFrame conversion.
 """
 
 
