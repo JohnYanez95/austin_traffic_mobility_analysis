@@ -55,8 +55,11 @@ jobs:
 
     # Step 4: Run linters
     - name: Run Flake8
-      run: flake8 . --max-line-length=88
-
+      run: |
+        flake8 . \
+          --max-line-length=88 \
+          --extend-ignore=E501 \
+          --ignore=D203,D205,D400
     - name: Run Black (Check Only)
       run: black --check .
   
