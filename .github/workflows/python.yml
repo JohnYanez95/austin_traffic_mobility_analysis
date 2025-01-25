@@ -55,10 +55,10 @@ jobs:
 
     # Step 4: Run linters
     - name: Run Flake8
-      run: flake8 src/ --max-line-length=88
+      run: flake8 . --max-line-length=88
 
     - name: Run Black (Check Only)
-      run: black --check src/
+      run: black --check .
   
   security:
     runs-on: ubuntu-22.04
