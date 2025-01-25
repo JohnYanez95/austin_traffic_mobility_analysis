@@ -59,3 +59,32 @@ jobs:
 
     - name: Run Black (Check Only)
       run: black --check src/
+  
+  security:
+    runs-on: ubuntu-22.04
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.9
+    
+    # Step 3: Install Security Tools
+    - name: Install Security Tools
+      run: |
+        pip install pip-audit bandit truffleHog
+
+    # Step 4: Run Security Tools
+    - name: Dependency Vulnerability Scan
+      run: pip-audit
+
+    - name: Code Security Scan (Bandit)
+      run: bandit -r .
+
+    - name: Secret Detection (TruffleHog)
+      run: trufflehog filesystem .
