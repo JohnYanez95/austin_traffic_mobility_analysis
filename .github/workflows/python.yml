@@ -105,7 +105,7 @@ jobs:
 
     # Step 4: Run TruffleHog
     - name: Secret Detection (TruffleHog)
-      run: trufflehog filesystem .
+      run: trufflehog file://${{ github.workspace }}
   
   pip-audit:
     runs-on: ubuntu-22.04
