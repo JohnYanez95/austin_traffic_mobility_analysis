@@ -2,9 +2,7 @@
 from pyspark.sql import SparkSession
 
 # Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("TestSparkSession") \
-    .getOrCreate()
+spark = SparkSession.builder.appName("TestSparkSession").getOrCreate()
 
 # Print Spark version to confirm it's working
 print(f"Spark Version: {spark.version}")
