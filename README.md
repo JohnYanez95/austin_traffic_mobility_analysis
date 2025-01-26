@@ -5,3 +5,9 @@
     - https://data.austintexas.gov/Transportation-and-Mobility/Traffic-Detectors/qpuw-8eeb/about_data
 - Radar Traffic Counts
     - https://data.austintexas.gov/Transportation-and-Mobility/Radar-Traffic-Counts/i626-g7ub/about_data
+- Bluetooth Travel Sensors - Individual Address Files (IAFs) 
+    - https://data.austintexas.gov/Transportation-and-Mobility/Bluetooth-Travel-Sensors-Individual-Address-Files-/qnpj-zrb9/data
+- Bluetooth Travel Sensors - Individual Traffic Match Files (ITMF) 
+    - https://data.austintexas.gov/Transportation-and-Mobility/Bluetooth-Travel-Sensors-Individual-Traffic-Match-/x44q-icha/data
+- Bluetooth Travel Sensors - Traffic Match Summary Records (TMSR)
+    - https://data.austintexas.gov/Transportation-and-Mobility/Bluetooth-Travel-Sensors-Traffic-Match-Summary-Rec/v7zg-5jg9/about_data
